@@ -3,7 +3,12 @@ from selenium.webdriver.chrome.options import Options
 import schedule
 import telegram
 from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
+from telegram.ext import (
+    ApplicationBuilder,
+    CommandHandler,
+    MessageHandler,
+    filters,
+)
 import os
 from dotenv import load_dotenv
 
@@ -16,6 +21,8 @@ GYMS = {
 load_dotenv()
 
 TOKEN = str(os.getenv("TOKEN"))
+PORT = int(os.environ.get("PORT", 5000))
+WEBHOOK_URL = "https://gym-capacity-bot.netlify.app/.netlify/functions/update"
 
 
 def scrapeCapacity(URL):
@@ -117,6 +124,8 @@ if __name__ == "__main__":
     select_gym_handler = MessageHandler(filters.TEXT & ~filters.COMMAND, selectGym)
     app.add_handler(select_gym_handler)
 
-    app.run_polling()
+    app.run_webhook(
+        listen="0.0.0.0", port=PORT, url_path=TOKEN, webhook_url=WEBHOOK_URL
+    )
 
     scheduleCapacityCheck()
