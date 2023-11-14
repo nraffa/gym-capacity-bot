@@ -21,7 +21,7 @@ GYMS = {
 load_dotenv()
 
 TOKEN = str(os.getenv("TOKEN"))
-PORT = int(os.environ.get("PORT", 5000))
+PORT = int(os.environ.get("PORT", 5001))
 WEBHOOK_URL = "https://gym-capacity-bot.netlify.app/.netlify/functions/update"
 
 
@@ -124,8 +124,10 @@ if __name__ == "__main__":
     select_gym_handler = MessageHandler(filters.TEXT & ~filters.COMMAND, selectGym)
     app.add_handler(select_gym_handler)
 
+    print("Starting bot...")
+
     app.run_webhook(
         listen="0.0.0.0", port=PORT, url_path=TOKEN, webhook_url=WEBHOOK_URL
     )
 
-    scheduleCapacityCheck()
+    print("Bot started")

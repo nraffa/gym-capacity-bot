@@ -1,0 +1,11 @@
+# Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
+v: 0
+micros:
+  - name: gym-capacity-bot
+    src: ./
+    engine: python3.9
+    primary: true
+    public: true
+    run: python gymCapacityBot.py
+    dev: python gymCapacityBot.py
+
